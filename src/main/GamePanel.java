@@ -1,7 +1,13 @@
 package main;
 
-import java.awt.Graphics;
 
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import Inputs.KeyboardInputs;
@@ -11,21 +17,47 @@ public class GamePanel extends JPanel{
 //We also need a constructor here
 	
 	private MouseInputs mouseInputs;
-	private int xDelta = 100, yDelta = 100;
-	private int frames = 0;
-	private long lastCheck =0;
+	private float xDelta = 100, yDelta = 100;
+	private BufferedImage img, subImg; {
+	}  
 	
-	public GamePanel() {
+	//change x and y direction to float in order to slow down the rectangle
+	
+    
+    public GamePanel() {
 		
 	    mouseInputs = new MouseInputs(this);
+	    
+	    importImg();
+	    
+	    
+	    setPanelSize();
 		addKeyListener(new KeyboardInputs(this));
 		addMouseListener(mouseInputs);	 
 		addMouseMotionListener(mouseInputs);	
 	
 	}
 	
+	private void importImg() {
+		InputStream is = getClass().getResourceAsStream("/Hit.png"); //tasking in an image as an input stream to load the image 
+		
+		try {
+			img = ImageIO.read(is);
+	} catch (IOException e) {
+		e.printStackTrace(); 
+		}
+	}
+
+	private void setPanelSize() {
+		Dimension size = new Dimension(1280,800);
+		setMinimumSize(size);
+		setPreferredSize(size);
+		setMaximumSize(size);
+		
+	}
+
 	public void changeXDelta(int value) {
-		this.xDelta +=value;
+		this.xDelta += value;
 		
 	}
 	
@@ -45,15 +77,13 @@ public class GamePanel extends JPanel{
 	//Graphics allows us to draw
 		super.paintComponent(g);//this line is calling the super class which is JPanel,it calls the JPanels own paint component method
 		
-		g.fillRect(xDelta, yDelta, 200, 50);//We need to assemble the jFrame and the jPanel
-		//We need to add an argument 
+		subImg = img.getSubimage(1 * 64, 8 * 40, 64, 40);
+		g.drawImage(subImg, (int) xDelta, (int) yDelta, 128, 80, null);
 		
-		frames++;
-		if(System.currentTimeMillis() - lastCheck >= 1000) {
-			lastCheck = System.currentTimeMillis();
-			System.out.println("FPS: " + frames);
-			frames=0;
-		}
-			repaint();
+
 	}
+
+	
+
+	
 }

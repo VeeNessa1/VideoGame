@@ -10,8 +10,9 @@ import main.GamePanel;
 public class MouseInputs implements MouseListener, MouseMotionListener {
 	
 	private GamePanel gamePanel;
+	
 	public MouseInputs(GamePanel gamePanel) {
-		this.gamePanel= gamePanel;
+		this.gamePanel = gamePanel;
 	}
 	
 	@Override
@@ -22,12 +23,12 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		gamePanel.setRectPos(e.getX(), e.getY());			
+		gamePanel.setRectPos(e.getX(), e.getY());		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("Mouse clicked!");
+	
 		
 	}
 

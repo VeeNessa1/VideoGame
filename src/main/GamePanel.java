@@ -77,8 +77,8 @@ public class GamePanel extends JPanel{
 	//Graphics allows us to draw
 		super.paintComponent(g);//this line is calling the super class which is JPanel,it calls the JPanels own paint component method
 		
-		subImg = img.getSubimage(1 * 64, 8 * 40, 64, 40);
-		g.drawImage(subImg, (int) xDelta, (int) yDelta, 128, 80, null);
+		subImg = img.getSubimage(82,55,54,86);
+		g.drawImage(subImg, (int) xDelta, (int) yDelta, 54, 86, null);
 		
 
 	}

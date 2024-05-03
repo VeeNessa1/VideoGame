@@ -39,7 +39,7 @@ public class GamePanel extends JPanel{
 	}
 	
 	private void importImg() {
-		InputStream is = getClass().getResourceAsStream("/Hit.png"); //tasking in an image as an input stream to load the image 
+		InputStream is = getClass().getResourceAsStream("/Idle.png"); //tasking in an image as an input stream to load the image 
 		
 		try {
 			img = ImageIO.read(is);

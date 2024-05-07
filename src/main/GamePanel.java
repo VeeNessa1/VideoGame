@@ -18,9 +18,10 @@ public class GamePanel extends JPanel{
 	
 	private MouseInputs mouseInputs;
 	private float xDelta = 100, yDelta = 100;
-	private BufferedImage img, subImg; {
-	}  
-	
+	private BufferedImage img;
+	private BufferedImage[][] animations; 	
+	private int aniTick, aniIndex, aniSpeed = 15;
+	//we need a speed, which will determine how fast we are going to animate, the lower the value, the faster it will go, fastest we can go is one 
 	//change x and y direction to float in order to slow down the rectangle
 	
     
@@ -29,6 +30,7 @@ public class GamePanel extends JPanel{
 	    mouseInputs = new MouseInputs(this);
 	    
 	    importImg();
+	    loadAnimations();
 	    
 	    
 	    setPanelSize();
@@ -38,6 +40,16 @@ public class GamePanel extends JPanel{
 	
 	}
 	
+	private void loadAnimations() {
+		animations = new BufferedImage[1][6]; 
+		
+		for(int j = 0; j < animations.length; j++)
+		
+		for(int i = 0 ; i < animations[j].length; i++)
+			animations[j][i] = img.getSubimage(i * 231, j * 190, 231, 190);   
+		
+	}
+
 	private void importImg() {
 		InputStream is = getClass().getResourceAsStream("/Idle.png"); //tasking in an image as an input stream to load the image 
 		
@@ -72,17 +84,32 @@ public class GamePanel extends JPanel{
 		
 	}
 	
+	private void updateAnimationTick() {
+		
+		aniTick++;
+		if(aniTick >= aniSpeed) {
+			aniTick = 0;
+			aniIndex++;
+			if(aniIndex >= 6)
+				aniIndex = 0;
+		}
+		
+	}
+
+	
 	public void paintComponent(Graphics g) {
 	//paintComponent: this ONLY gets called whenever we press the play button
 	//Graphics allows us to draw
 		super.paintComponent(g);//this line is calling the super class which is JPanel,it calls the JPanels own paint component method
 		
-		subImg = img.getSubimage(82,55,54,86);
-		g.drawImage(subImg, (int) xDelta, (int) yDelta, 54, 86, null);
+		updateAnimationTick();
+		
+		g.drawImage(animations[0][aniIndex], (int) xDelta, (int) yDelta, 462, 380, null); 
 		
 
 	}
 
+	
 	
 
 	

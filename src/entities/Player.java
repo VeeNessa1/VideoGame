@@ -19,11 +19,13 @@ import utilz.Constants;
 
 public class Player extends Entity {
 	
+	private static final int ATTACK_1 = 0;
 	private BufferedImage[][] animations; //2D Array
 	private int aniTick, aniIndex, aniSpeed = 25;
 	private int playerAction = IDLE;
-	private int playerDir = -1;
-	private boolean moving = false;
+	private boolean moving = false, attacking = false;
+	private boolean left, up, right, down;
+	private float playerSpeed = 2.0f;
 	
 	private BufferedImage attack1_img;
     private BufferedImage attack2_img;
@@ -42,9 +44,10 @@ public class Player extends Entity {
 	
 	public void update() {
 		
+		updatePos();
 		updateAnimationTick();
 		setAnimation();
-		updatePos();
+		
 
 		
 	}
@@ -56,18 +59,7 @@ public class Player extends Entity {
 		
 	}
 	
-	public void setDirection(int direction) {
-		this.playerDir = direction;
-		moving = true; 
-		
-	}
 	
-	public void setMoving(boolean moving) { 
-		this.moving = moving;
-		//setter 
-		
-	}
-	//method that says moving equals false
 	
 	private void updateAnimationTick() {
 		
@@ -75,8 +67,11 @@ public class Player extends Entity {
 		if(aniTick >= aniSpeed) {
 			aniTick = 0;
 			aniIndex++;
-			if(aniIndex >= GetSpriteAmount(playerAction))
+			if(aniIndex >= GetSpriteAmount(playerAction)) {
 				aniIndex = 0;
+				attacking = false;
+			}
+			
 		}
 		
 	}
@@ -88,26 +83,29 @@ public class Player extends Entity {
 		else
 			playerAction = IDLE;
 		//if-else statement 
-	}
-	private void updatePos() {
-
 		
-		if(moving) {
-			switch(playerDir) {
-			case LEFT:
-				x -= 5;
-				break;
-			case UP:
-				y -= 5;
-				break;
-			case RIGHT:
-				x += 5;
-				break;
-			case DOWN:
-				y +=5;
-				break;
-			
-			}
+		if(attacking)
+			playerAction = ATTACK_1; 
+	}
+	
+	private void updatePos() {
+		
+		moving = false;
+
+		if(left && !right) {
+			x -= playerSpeed;
+			moving = true;
+		}else if(right && !left) {
+			x += playerSpeed;
+			moving = true;
+		}
+		
+		if(up && !down) {
+			y -= playerSpeed;
+			moving = true;
+		}else if (down && !up) {
+			y += playerSpeed;
+			moving = true;
 		}
 		
 	}
@@ -165,9 +163,56 @@ public class Player extends Entity {
     	for (int i = 0; i < Constants.PlayerConstants.GetSpriteAmount(Constants.PlayerConstants.RUNNING); i++)
     		this.animations[Constants.PlayerConstants.RUNNING][i] = this.run_img.getSubimage(i * ANIM_WIDTH, 0, ANIM_WIDTH, ANIM_HEIGHT);
 	}
+
+	
+	public void resetDirBooleans() {
+		left = false;
+		right = false;
+		up = false;
+		down = false;
+	}
+	
+	public void setAttacking(boolean attacking ) {
+		this.attacking = attacking;
+		
+	}
+	
+	public boolean isLeft() {
+		return left;
+	}
+
+	public void setLeft(boolean left) {
+		this.left = left;
+	}
+
+	public boolean isUp() {
+		return up;
+	}
+
+	public void setUp(boolean up) {
+		this.up = up;
+	}
+
+	public boolean isRight() {
+		return right;
+	}
+
+	public void setRight(boolean right) {
+		this.right = right;
+	}
+
+	public boolean isDown() {
+		return down;
+	}
+
+	public void setDown(boolean down) {
+		this.down = down;
+	}
 	
 	
 	
 }
+
+
 	
 	

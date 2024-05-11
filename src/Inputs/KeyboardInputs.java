@@ -24,11 +24,17 @@ public class KeyboardInputs implements KeyListener {
 	public void keyReleased(KeyEvent e) {
 		
 		switch(e.getKeyCode()) {
-		case KeyEvent.VK_W: 
+		case KeyEvent.VK_W:
+			gamePanel.getGame().getPlayer().setUp(false);   //Once key is released, the player will stop moving
+			break;
 		case KeyEvent.VK_A:
+			gamePanel.getGame().getPlayer().setLeft(false);   //Once key is released, the player will stop moving
+			break;
 		case KeyEvent.VK_S:
+			gamePanel.getGame().getPlayer().setDown(false);   //Once key is released, the player will stop moving
+			break;
 		case KeyEvent.VK_D:
-			gamePanel.getGame().getPlayer().setMoving(false);   //Once key is released, the player will stop moving
+			gamePanel.getGame().getPlayer().setRight(false);   //Once key is released, the player will stop moving
 			break;
 			
 		}
@@ -39,22 +45,23 @@ public class KeyboardInputs implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		
 		switch(e.getKeyCode()) {
-		case KeyEvent.VK_W: //Letters that can be pressed
-			gamePanel.getGame().getPlayer().setDirection(UP);
+		case KeyEvent.VK_W:
+			gamePanel.getGame().getPlayer().setUp(true);   //Once key is released, the player will stop moving
 			break;
 		case KeyEvent.VK_A:
-			gamePanel.getGame().getPlayer().setDirection(LEFT);
+			gamePanel.getGame().getPlayer().setLeft(true);   //Once key is released, the player will stop moving
 			break;
 		case KeyEvent.VK_S:
-			gamePanel.getGame().getPlayer().setDirection(DOWN);
+			gamePanel.getGame().getPlayer().setDown(true);   //Once key is released, the player will stop moving
 			break;
 		case KeyEvent.VK_D:
-			gamePanel.getGame().getPlayer().setDirection(RIGHT);
-			break;
+			gamePanel.getGame().getPlayer().setRight(true);   //Once key is released, the player will stop moving
+			break; 
+			
+		}
 			
 		}
 		
 		
 	}
 
-}

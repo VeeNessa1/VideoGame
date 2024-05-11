@@ -6,6 +6,7 @@ import static utilz.Constants.Directions.RIGHT;
 import static utilz.Constants.Directions.UP;
 import static utilz.Constants.PlayerConstants.GetSpriteAmount;
 import static utilz.Constants.PlayerConstants.IDLE;
+import static utilz.Constants.PlayerConstants.ATTACK_1;
 import static utilz.Constants.PlayerConstants.RUNNING;
 
 import java.awt.Graphics;
@@ -19,7 +20,6 @@ import utilz.Constants;
 
 public class Player extends Entity {
 	
-	private static final int ATTACK_1 = 0;
 	private BufferedImage[][] animations; //2D Array
 	private int aniTick, aniIndex, aniSpeed = 25;
 	private int playerAction = IDLE;
@@ -52,7 +52,7 @@ public class Player extends Entity {
 		
 	}
 	
-	public void render(Graphics g) {
+	public void render(Graphics g) { 
 		//this way we can render the player 
 		
 		g.drawImage(animations[playerAction][aniIndex], (int) x, (int) y, 462, 380, null);
@@ -77,17 +77,28 @@ public class Player extends Entity {
 	}
 	
 	private void setAnimation( ) {
+		int startAni = playerAction;
 		
 		if(moving)
 			playerAction = RUNNING;
+		
 		else
 			playerAction = IDLE;
 		//if-else statement 
 		
 		if(attacking)
 			playerAction = ATTACK_1; 
+		
+		if(startAni != playerAction)
+			resetAniTick(); 
 	}
 	
+	private void resetAniTick() {
+		aniTick=0;
+		aniIndex=0;
+		
+	}
+
 	private void updatePos() {
 		
 		moving = false;

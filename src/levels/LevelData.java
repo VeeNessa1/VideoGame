@@ -18,7 +18,10 @@ public class LevelData
     GrassyNone4(11),
     GrassyNone5(12),
     GrassyNone6(13),
-    GrassyNone7(14);
+    GrassyNone7(14),
+    Air(47);
+
+    public static final int TILE_COUNT = 48;
 
     private int id = 0;
 

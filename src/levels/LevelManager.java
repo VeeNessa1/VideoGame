@@ -27,9 +27,7 @@ public class LevelManager
 
 		for (int i = 0; i < 47; i++)
 		{
-			int x = 12 + 64 * i, y = 12, w = 36, h = 36;;
-
-			System.out.format("x: %d, y: %d, w: %d, h: %d\n", x, y, w, h);
+			int x = 12 + 64 * i, y = 12, w = 36, h = 36;
 
 			levelSprite[i] = img.getSubimage(x, y, w, h);
 		}

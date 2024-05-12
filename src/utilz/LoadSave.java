@@ -36,13 +36,10 @@ public class LoadSave
 	{
 		int[][] lvlData = new int[Game.TILES_IN_HEIGHT][Game.TILES_IN_WIDTH];
 
-		System.out.println("i: " + lvlData.length + " j: " + lvlData[0].length);
 		for (int i = 0; i < Game.TILES_IN_HEIGHT; i++)
 		{
 			for (int j = 0; j < Game.TILES_IN_WIDTH; j++)
 			{
-				System.out.println("i, j: " + i + " " + j);
-
 				lvlData[i][j] = LEVEL_ONE_DATA[i][j].getId();
 			}
 		}

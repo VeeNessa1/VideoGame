@@ -27,7 +27,7 @@ public class LevelManager
 
 		for (int i = 0; i < 47; i++)
 		{
-			int x = 12 + 64 * i, y = 12, w = 36, h = 36;
+			int x = 16 + 64 * i, y = 16, w = 32, h = 32;
 
 			levelSprite[i] = img.getSubimage(x, y, w, h);
 		}
@@ -40,7 +40,7 @@ public class LevelManager
 			for (int i = 0; i < Game.TILES_IN_WIDTH; i++)
 			{
 				int index = levelOne.getSpriteIndex(i, j);
-				g.drawImage(levelSprite[index], Game.TILES_SIZE * i,Game.TILES_SIZE * j, Game.TILES_SIZE, Game.TILES_SIZE, null);
+				g.drawImage(levelSprite[index], Game.TILES_SIZE * i, Game.TILES_SIZE * j, Game.TILES_SIZE, Game.TILES_SIZE, null);
 			}
 		}
 	}

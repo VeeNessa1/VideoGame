@@ -1,12 +1,7 @@
 package levels;
 
-import static main.Game.TILES_IN_HEIGHT;
-import static main.Game.TILES_IN_WIDTH;
-
 public class LevelData
 {
-  // TODO do stuff
-
   public enum Tiles
   {
     GrassyNorthWest(0),

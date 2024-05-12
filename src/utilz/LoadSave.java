@@ -10,14 +10,15 @@ import javax.imageio.ImageIO;
 
 import main.Game;
 
-public class LoadSave {
-
-	public static BufferedImage GetSpriteAtlas(String fileName) {
+public class LoadSave
+{
+	public static BufferedImage GetSpriteAtlas(String fileName)
+	{
 		BufferedImage img = null;
 		InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
+
 		try {
 			img = ImageIO.read(is);
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -27,11 +28,12 @@ public class LoadSave {
 				e.printStackTrace();
 			}
 		}
+
 		return img;
-	
-}
-	
-	public static int [][] GetLevelData() {
+	}
+
+	public static int[][] GetLevelData()
+	{
 		int[][] lvlData = new int[Game.TILES_IN_HEIGHT][Game.TILES_IN_WIDTH];
 
 		System.out.println("i: " + lvlData.length + " j: " + lvlData[0].length);

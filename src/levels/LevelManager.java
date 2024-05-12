@@ -23,9 +23,9 @@ public class LevelManager
 	private void importOutsideSprites()
 	{
 		BufferedImage img = LoadSave.GetSpriteAtlas("spr_VillageTileSetNoBkg_strip.png");
-		levelSprite = new BufferedImage[47];
+		levelSprite = new BufferedImage[LevelData.Tiles.TILE_COUNT];
 
-		for (int i = 0; i < 47; i++)
+		for (int i = 0; i < LevelData.Tiles.TILE_COUNT; i++)
 		{
 			int x = 16 + 64 * i, y = 16, w = 32, h = 32;
 

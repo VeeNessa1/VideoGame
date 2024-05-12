@@ -13,6 +13,7 @@ public class LoadSave {
 	
 	//public static String BACKGROUND_SPRITE = "Mockup.png";
 	public static String LEVEL_ONE_DATA = "Mockup.png"; 
+	
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
 		InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
@@ -30,7 +31,6 @@ public class LoadSave {
 		}
 		return img;
 	
-	
 }
 	
 	public static int [][] GetLevelData() {
@@ -41,10 +41,11 @@ public class LoadSave {
 			for(int i = 0; i < img.getWidth(); i++) {
 				Color color = new Color(img.getRGB(i, j)); 
 				int value = color.getRed();
-				if(value >=48)
+				if(value >= 48)
 					value = 0;
-				lvlData[j][i] = value;
+				lvlData[j][i] = value; 
+				
 			}
 		return lvlData;
 	}
-	}
+}

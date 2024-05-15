@@ -1,6 +1,7 @@
 package entities;
 
 import static utilz.Constants.PlayerConstants.GetSpriteAmount;
+import static utilz.HelpMethods.CanMoveHere;
 import static utilz.Constants.PlayerConstants.IDLE;
 import static utilz.Constants.PlayerConstants.ATTACK_1;
 import static utilz.Constants.PlayerConstants.RUNNING;
@@ -21,21 +22,21 @@ public class Player extends Entity
 	private int aniTick, aniIndex, aniSpeed = 25;
 	private int playerAction = IDLE;
 	private boolean moving = false, attacking = false;
-	private boolean left, up, right, down;
+	private boolean left, up, right, down; 
 	private float playerSpeed = 2.0f;
+	private int[][] lvlData; 
 
 	private BufferedImage attack1_img;
 	private BufferedImage attack2_img;
 	private BufferedImage death_img;
 	private BufferedImage fall_img;
 	private BufferedImage hit_img;
-	private BufferedImage idle_img;
+	private BufferedImage idle_img; 
 	private BufferedImage jump_img;
 	private BufferedImage run_img;
 
-	public Player(float x, float y)
-	{
-		super(x, y);
+	public Player(float x, float y, int width, int height) {
+	super(x, y, width,height);
 
 		// this is how objected oriented programming works
 		// ^ awesome!
@@ -45,6 +46,7 @@ public class Player extends Entity
 	public void update()
 	{
 		updatePos();
+		updateHitbox();
 		updateAnimationTick();
 		setAnimation();
 	}
@@ -53,7 +55,8 @@ public class Player extends Entity
 	{
 		// this way we can render the player
 
-		g.drawImage(animations[playerAction][aniIndex], (int) x, (int) y, 462, 380, null);
+		g.drawImage(animations[playerAction][aniIndex], (int) x, (int) y, width, height, null); 
+		drawHitbox(g);
 	}
 
 	private void updateAnimationTick()
@@ -68,7 +71,7 @@ public class Player extends Entity
 			if (aniIndex >= GetSpriteAmount(playerAction))
 			{
 				aniIndex = 0;
-				attacking = false;
+				attacking = false; 
 			}
 		}
 	}
@@ -99,25 +102,36 @@ public class Player extends Entity
 	private void updatePos()
 	{
 		moving = false;
+		if(!left && !right && !up && !down)
+			return;
+		
+		float xSpeed = 0, ySpeed = 0;
+		
 
 		if (left && !right)
-		{
-			x -= playerSpeed;
-			moving = true;
-		} else if (right && !left) {
-			x += playerSpeed;
-			moving = true;
-		}
+	
+			xSpeed = -playerSpeed;
+			
+		else if (right && !left) 
+			xSpeed = playerSpeed;
+			
+		
 
 		if (up && !down)
-		{
-			y -= playerSpeed;
-			moving = true;
-		} else if (down && !up) {
-			y += playerSpeed;
+		
+			ySpeed = -playerSpeed;
+			
+		 else if (down && !up) 
+			ySpeed = playerSpeed;
+			
+		if(CanMoveHere(x+xSpeed, y+ySpeed, width, height, lvlData)) {
+			this.x += xSpeed;
+			this.y += ySpeed;
 			moving = true;
 		}
-	}
+			
+		}
+	
 
 	private void loadAnimations()
 	{
@@ -171,6 +185,10 @@ public class Player extends Entity
 
 		for (int i = 0; i < Constants.PlayerConstants.GetSpriteAmount(Constants.PlayerConstants.RUNNING); i++)
 			this.animations[Constants.PlayerConstants.RUNNING][i] = this.run_img.getSubimage(i * ANIM_WIDTH, 0, ANIM_WIDTH, ANIM_HEIGHT);
+	}
+	public void loadLvlDataint(int[][] lvlData) {
+		this.lvlData = lvlData; 
+		
 	}
 
 	public void resetDirBooleans()

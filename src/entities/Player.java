@@ -30,7 +30,7 @@ public class Player extends Entity
 	private float playerSpeed = 2.0f;
 	private int[][] lvlData; 
 	private float xDrawOffset = 32 * Game.SCALE;
-	private float yDrawOffset = 30 * Game.SCALE;
+	private float yDrawOffset = 43 * Game.SCALE;
 	
 	//All of these will be for jumping/gravity
 	private float airSpeed = 0f;
@@ -57,7 +57,7 @@ public class Player extends Entity
 		// this is how objected oriented programming works
 		// ^ awesome!
 		loadAnimations();
-		initHitBox(x,y,20*Game.SCALE,40*Game.SCALE);
+		initHitBox(x,y,20*Game.SCALE,27*Game.SCALE);
 		
 	}
 

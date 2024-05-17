@@ -45,12 +45,10 @@ public class LevelManager
 		}
 	}
 
-	public void update() {
-		
-	}
+	public void update() {}
+
 	public static Level getCurrentLevel() {
 		return levelOne;
 	}
-	
 }
 

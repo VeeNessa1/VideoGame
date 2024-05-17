@@ -42,7 +42,7 @@ public class Game implements Runnable
 	{
 		levelManager = new LevelManager(this);
 		player = new Player(200, 200, FPS_SET, FPS_SET);
-		player.loadLvlDataint(LevelManager.getCurrentLevel().getLevelData()); 
+		player.loadLvlDataint(LevelManager.getCurrentLevel().getLevelData());
 	}
 
 	private void startGameLoop()
@@ -61,7 +61,7 @@ public class Game implements Runnable
 	{
 		levelManager.draw(g);
 		player.render(g);
-		
+
 	}
 
 	@Override

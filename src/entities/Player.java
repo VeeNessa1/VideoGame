@@ -13,6 +13,7 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
+import main.Game;
 import utilz.Constants;
 
 public class Player extends Entity
@@ -25,6 +26,8 @@ public class Player extends Entity
 	private boolean left, up, right, down; 
 	private float playerSpeed = 2.0f;
 	private int[][] lvlData; 
+	private float xDrawOffset = 32 * Game.SCALE;
+	private float yDrawOffset = 30 * Game.SCALE;
 
 	private BufferedImage attack1_img;
 	private BufferedImage attack2_img;
@@ -34,6 +37,7 @@ public class Player extends Entity
 	private BufferedImage idle_img; 
 	private BufferedImage jump_img;
 	private BufferedImage run_img;
+	
 
 	public Player(float x, float y, int width, int height) {
 	super(x, y, width,height);
@@ -41,12 +45,13 @@ public class Player extends Entity
 		// this is how objected oriented programming works
 		// ^ awesome!
 		loadAnimations();
+		initHitBox(x,y,20*Game.SCALE,40*Game.SCALE);
 	}
 
 	public void update()
 	{
 		updatePos();
-		updateHitbox();
+	
 		updateAnimationTick();
 		setAnimation();
 	}
@@ -55,7 +60,7 @@ public class Player extends Entity
 	{
 		// this way we can render the player
 
-		g.drawImage(animations[playerAction][aniIndex], (int) x, (int) y, width, height, null); 
+		g.drawImage(animations[playerAction][aniIndex],(int) (hitbox.x - xDrawOffset), (int) (hitbox.y - yDrawOffset), width, height, null); 
 		drawHitbox(g);
 	}
 
@@ -123,14 +128,18 @@ public class Player extends Entity
 			
 		 else if (down && !up) 
 			ySpeed = playerSpeed;
-			
-		if(CanMoveHere(x+xSpeed, y+ySpeed, width, height, lvlData)) {
-			this.x += xSpeed;
-			this.y += ySpeed;
-			moving = true;
+//			
+//		if(CanMoveHere(x+xSpeed, y+ySpeed, width, height, lvlData)) {
+//			this.x += xSpeed;
+//			this.y += ySpeed;
+//			moving = true;
+//		}
+			if(CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, lvlData)) {
+				hitbox.x += xSpeed;
+				hitbox.y += ySpeed;
+		moving = true;
 		}
-			
-		}
+	}
 	
 
 	private void loadAnimations()

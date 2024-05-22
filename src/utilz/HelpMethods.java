@@ -3,7 +3,7 @@ package utilz;
 import java.awt.geom.Rectangle2D;
 
 import levels.LevelData;
-import levels.LevelData.Tiles;
+import levels.LevelData.Tile;
 import main.Game;
 
 public class HelpMethods
@@ -36,7 +36,7 @@ public class HelpMethods
 
 		int value = lvlData[(int) yIndex][(int) xIndex];
 
-		if(value == Tiles.Air.getId())
+		if(value == Tile.Air.getId())
 			return false;
 
 		return true;

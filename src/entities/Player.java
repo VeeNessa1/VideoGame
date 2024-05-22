@@ -13,6 +13,7 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
+import levels.LevelData.Tile;
 import main.Game;
 import utilz.Constants;
 

@@ -23,9 +23,9 @@ public class LevelData
     StoneCornerSouthEast(39),
     StoneCornerSouthWest(40),
     StoneCornerNorthWest(41),
-    Air(47);
-
-    public static final int TILE_COUNT = 48;
+    Air(47, false),
+    RedBackground(48, false),
+    GreenBackground(49, false);
 
     public static final int TILE_COUNT = 50;
     

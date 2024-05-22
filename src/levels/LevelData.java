@@ -27,17 +27,32 @@ public class LevelData
 
     public static final int TILE_COUNT = 48;
 
+    public static final int TILE_COUNT = 50;
+    
     private int id = 0;
-
+    private boolean isSolid = true;
+    
     Tiles(int id)
     {
       this.id = id;
     }
 
+    Tiles(int id, boolean isSolid)
+    {
+      this(id);
+      this.isSolid = isSolid;
+    };
+
     public int getId()
     {
       return this.id;
     }
+
+    public boolean isSolid()
+    {
+      return this.isSolid;
+    };
+    
   };
 
   public static final Tiles[][] LEVEL_ONE_DATA = {

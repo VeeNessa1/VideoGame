@@ -41,8 +41,13 @@ public class KeyboardInputs implements KeyListener
 				// Once key is released, the player will stop moving
 				gamePanel.getGame().getPlayer().setRight(false);
 				break;
+
 			case KeyEvent.VK_SPACE:
 				gamePanel.getGame().getPlayer().setJump(false);
+				break;
+
+			case KeyEvent.VK_ENTER:
+				gamePanel.getGame().begin();	
 				break;
 		}
 	}

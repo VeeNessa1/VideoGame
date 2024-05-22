@@ -63,7 +63,7 @@ public class Game implements Runnable
 	{
 		levelManager.draw(g);
 		player.render(g);
-		g.drawString("Hello, world!", 400, 200);
+		logic.draw(g);
 	}
 
 	@Override
@@ -132,5 +132,10 @@ public class Game implements Runnable
 	public int getUps()
 	{
 		return this.UPS_SET;
+	}
+
+	public void begin()
+	{
+		this.logic.begin();
 	}
 }

@@ -10,7 +10,7 @@ public class HelpMethods
 {
 	private static final float LEVEL_ONE_DATA = 0;
 
-	public static boolean CanMoveHere(float x, float y, float width, float height, int[][] lvlData) {
+	public static boolean CanMoveHere(float x, float y, float width, float height, Tile[][] lvlData) {
 		if(!IsSolid(x,y,lvlData))
 			if(!IsSolid(x+width,y+height, lvlData))
 				if(!IsSolid(x+width,y, lvlData))
@@ -24,7 +24,7 @@ public class HelpMethods
 	// In this method we test if all four sides of our hitbox are true or false
 	// If all four sides are true, the player will be able to move
 	// if at least one of the sides are false, then the player will not be able to move there
-	private static boolean IsSolid(float x, float y, int[][] lvlData) {
+	private static boolean IsSolid(float x, float y, Tile[][] lvlData) {
 		if(x<0|| x >= Game.GAME_WIDTH)
 			return true;
 
@@ -34,12 +34,9 @@ public class HelpMethods
 		float xIndex = x / Game.TILES_SIZE;
 		float yIndex = y / Game.TILES_SIZE;
 
-		int value = lvlData[(int) yIndex][(int) xIndex];
+		Tile tile = lvlData[(int) yIndex][(int) xIndex];
 
-		if(value == Tile.Air.getId())
-			return false;
-
-		return true;
+		return tile.isSolid();
 	}
 
 	public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float xSpeed)
@@ -73,7 +70,7 @@ public class HelpMethods
 	}
 
 
-	public static boolean IsEntityOnFloor(Rectangle2D.Float hitbox, int[][] lvlData)
+	public static boolean IsEntityOnFloor(Rectangle2D.Float hitbox, Tile[][] lvlData)
 	{
 		// Check the pixel below bottom left and bottom right
 		if (!IsSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData))

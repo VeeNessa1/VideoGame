@@ -28,7 +28,7 @@ public class Player extends Entity
 	private boolean moving = false, attacking = false;
 	private boolean left, up, right, down, jump;
 	private float playerSpeed = 2.0f;
-	private int[][] lvlData;
+	private Tile[][] lvlData;
 	private float xDrawOffset = 32 * Game.SCALE;
 	private float yDrawOffset = 43 * Game.SCALE;
 
@@ -248,7 +248,7 @@ public class Player extends Entity
 			this.animations[Constants.PlayerConstants.RUNNING][i] = this.run_img.getSubimage(i * ANIM_WIDTH, 0, ANIM_WIDTH, ANIM_HEIGHT);
 	}
 
-	public void loadLvlDataint(int[][] lvlData)
+	public void loadLvlDataint(Tile[][] lvlData)
 	{
 		this.lvlData = lvlData;
 

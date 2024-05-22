@@ -8,6 +8,7 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
+import levels.LevelData.Tile;
 import main.Game;
 
 public class LoadSave
@@ -32,15 +33,15 @@ public class LoadSave
 		return img;
 	}
 
-	public static int[][] GetLevelData()
+	public static Tile[][] GetLevelData()
 	{
-		int[][] lvlData = new int[Game.TILES_IN_HEIGHT][Game.TILES_IN_WIDTH];
+		Tile[][] lvlData = new Tile[Game.TILES_IN_HEIGHT][Game.TILES_IN_WIDTH];
 
 		for (int i = 0; i < Game.TILES_IN_HEIGHT; i++)
 		{
 			for (int j = 0; j < Game.TILES_IN_WIDTH; j++)
 			{
-				lvlData[i][j] = LEVEL_ONE_DATA[i][j].getId();
+				lvlData[i][j] = LEVEL_ONE_DATA[i][j];
 			}
 		}
 

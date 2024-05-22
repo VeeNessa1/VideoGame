@@ -1,20 +1,22 @@
 package levels;
 
+import levels.LevelData.Tile;
+
 public class Level
 {
-	private int[][] lvlData;
+	private Tile[][] lvlData;
 
-	public Level(int[][] lvlData)
+	public Level(Tile[][] lvlData)
 	{
 		this.lvlData = lvlData;
 	}
 
-	public int getSpriteIndex(int x, int y)
+	public Tile getSpriteIndex(int x, int y)
 	{
 		return lvlData[y][x];
 	}
 
-	public int[][] getLevelData()
+	public Tile[][] getLevelData()
 	{
 		return lvlData;
 	}

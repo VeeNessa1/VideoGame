@@ -3,6 +3,7 @@ package levels;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import levels.LevelData.Tile;
 import main.Game;
 import utilz.LoadSave;
 
@@ -39,8 +40,16 @@ public class LevelManager
 		{
 			for (int i = 0; i < Game.TILES_IN_WIDTH; i++)
 			{
-				int index = levelOne.getSpriteIndex(i, j);
-				g.drawImage(levelSprite[index], Game.TILES_SIZE * i, Game.TILES_SIZE * j, Game.TILES_SIZE, Game.TILES_SIZE, null);
+				int id = levelOne.getSpriteIndex(i, j).getId();
+
+				g.drawImage(
+					levelSprite[id],
+					Game.TILES_SIZE * i,
+					Game.TILES_SIZE * j,
+					Game.TILES_SIZE,
+					Game.TILES_SIZE,
+					null
+				);
 			}
 		}
 	}

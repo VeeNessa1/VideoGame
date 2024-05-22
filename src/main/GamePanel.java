@@ -1,7 +1,7 @@
 package main;
 
 import java.awt.Dimension;
-
+import java.awt.Font;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
@@ -47,6 +47,8 @@ public class GamePanel extends JPanel
 		// paintComponent: this ONLY gets called whenever we press the play button
 		// Graphics allows us to draw
 
+		g.setFont(new Font("Arial", Font.PLAIN, 48));
+		
 		// this line is calling the super class which is JPanel,it calls the JPanels own paint component method
 		super.paintComponent(g);
 		game.render(g);

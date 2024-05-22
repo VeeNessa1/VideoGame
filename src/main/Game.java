@@ -59,7 +59,7 @@ public class Game implements Runnable
 	{
 		levelManager.draw(g);
 		player.render(g);
-
+		g.drawString("Hello, world!", 400, 200);
 	}
 
 	@Override

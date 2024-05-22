@@ -26,6 +26,8 @@ public class Game implements Runnable
 	public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
 	public static final float LEVEL_ONE_DATA = 0;
 
+	private Logic logic;
+
 	public Game()
 	{
 		initClasses();
@@ -41,6 +43,7 @@ public class Game implements Runnable
 		levelManager = new LevelManager(this);
 		player = new Player(200, 200, FPS_SET, FPS_SET);
 		player.loadLvlDataint(LevelManager.getCurrentLevel().getLevelData());
+		logic = new Logic(this);
 	}
 
 	public void startGameLoop()
@@ -53,6 +56,7 @@ public class Game implements Runnable
 	{
 		player.update();
 		levelManager.update();
+		logic.update();
 	}
 
 	public void render(Graphics g)
@@ -123,5 +127,10 @@ public class Game implements Runnable
 	{
 		// Creating a Getter
 		return player;
+	}
+
+	public int getUps()
+	{
+		return this.UPS_SET;
 	}
 }

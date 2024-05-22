@@ -34,8 +34,6 @@ public class Game implements Runnable
 		gameWindow = new GameWindow(gamePanel);
 		// requests that this component gets focus
 		gamePanel.requestFocus();
-
-		startGameLoop();
 	}
 
 	private void initClasses()
@@ -45,7 +43,7 @@ public class Game implements Runnable
 		player.loadLvlDataint(LevelManager.getCurrentLevel().getLevelData());
 	}
 
-	private void startGameLoop()
+	public void startGameLoop()
 	{
 		gameThread = new Thread(this);
 		gameThread.start();

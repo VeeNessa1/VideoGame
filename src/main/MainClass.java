@@ -10,5 +10,7 @@ public class MainClass
 		// Main method is the first method Java looks at
 		// This class glues everything together
 		// 2D ArrayList = a dynamic list of lists
+
+		game.startGameLoop();
 	}
 }

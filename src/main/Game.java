@@ -42,7 +42,7 @@ public class Game implements Runnable
 	private void initClasses()
 	{
 		this.levelManager = new LevelManager(this);
-		this.player = new Player(200, 300, 120, 120);
+		this.player = new Player(200, 300, 120, 120, this.levelManager);
 		this.player.loadLvlDataint(this.levelManager.getCurrentLevel().getLevelData());
 		this.logic = new Logic(this);
 	}

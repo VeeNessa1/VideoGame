@@ -10,6 +10,7 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
+import levels.LevelManager;
 import levels.LevelData.Tile;
 import main.Game;
 
@@ -22,7 +23,6 @@ public class Player extends Entity
 	private boolean moving = false, attacking = false;
 	private boolean left, up, right, down, jump;
 	private float playerSpeed = 2.0f;
-	private Tile[][] lvlData;
 	private float xDrawOffset = 32 * Game.SCALE;
 	private float yDrawOffset = 43 * Game.SCALE;
 
@@ -37,11 +37,15 @@ public class Player extends Entity
 
 	private BufferedImage[] images = new BufferedImage[8];
 
-	public Player(float x, float y, int width, int height)
+	private LevelManager levelManager;
+
+	public Player(float x, float y, int width, int height, LevelManager levelManager)
 	{
 		super(x, y, width, height);
 		// ^ awesome!
 		// this is how objected oriented programming works
+
+		this.levelManager = levelManager;
 
 		this.loadAnimations();
 		this.initHitBox(x, y, 20 * Game.SCALE, 27 * Game.SCALE);
@@ -140,7 +144,7 @@ public class Player extends Entity
 		if (this.right)
 			xSpeed += this.playerSpeed;
 
-		if (!this.inAir && !IsEntityOnFloor(this.hitbox, this.lvlData))
+		if (!this.inAir && !IsEntityOnFloor(this.hitbox, this.levelManager.getCurrentLevel().getLevelData()))
 			this.inAir = true;
 
 		if (this.inAir)
@@ -150,7 +154,7 @@ public class Player extends Entity
 				this.hitbox.y + this.airSpeed,
 				this.hitbox.width,
 				this.hitbox.height,
-				this.lvlData
+				this.levelManager.getCurrentLevel().getLevelData()
 			)) {
 				this.hitbox.y += this.airSpeed;
 				this.airSpeed += this.gravity;
@@ -193,7 +197,7 @@ public class Player extends Entity
 			this.hitbox.y,
 			this.hitbox.width,
 			this.hitbox.height,
-			lvlData
+			this.levelManager.getCurrentLevel().getLevelData()
 		)) {
 			this.hitbox.x += xSpeed;
 		} else {
@@ -258,8 +262,6 @@ public class Player extends Entity
 
 	public void loadLvlDataint(Tile[][] lvlData)
 	{
-		this.lvlData = lvlData;
-
 		if (!IsEntityOnFloor(this.hitbox, lvlData))
 			inAir = true;
 	}
@@ -316,7 +318,6 @@ public class Player extends Entity
 	{
 		this.down = down;
 	}
-
 
 	public void setJump(boolean jump)
 	{

@@ -37,19 +37,21 @@ public class Logic
     public static final int RESULT_TIMER = 5;
   };
 
-  private State state = State.Startup;
-
-  public Logic(Game game)
-  {
-    this.game = game;
-  }
-
   private static final Tile BLOCK_TILES[][] = {
     { Tile.GrassyNorthWest, Tile.GrassyNorthEast },
     { Tile.GrassySouthWest, Tile.GrassySouthEast },
   };
 
   private int nextQuestionIndex = 0;
+  private int redAnswerIndex = 0;
+  private int greenAnswerIndex = 0;
+
+  private State state = State.Startup;
+
+  public Logic(Game game)
+  {
+    this.game = game;
+  }
 
   // This is the method in which introduce obstacles for the player
   // to navigate before the countdown timer expires
@@ -219,6 +221,30 @@ public class Logic
     }
   }
 
+  private void chooseNextQuestion()
+  {
+    this.nextQuestionIndex = (int)(Math.random() * Questions.QUESTIONS.length);
+
+    // Choose random answers from our pools -- we need to make sure the correct
+    // answer is one of the options
+    int goodAnswerIndex = Questions.ANSWER_INDICES[this.nextQuestionIndex];
+    int badAnswerIndex = 0;
+
+    do {
+      badAnswerIndex = (int)(Math.random() * Questions.ANSWERS[this.nextQuestionIndex].length);
+    } while (badAnswerIndex != goodAnswerIndex);
+
+    // Randomly decide if red or green represent the good or bad answer respectively
+    if (Math.random() > 0.5)
+    {
+      this.greenAnswerIndex = goodAnswerIndex;
+      this.redAnswerIndex = badAnswerIndex;
+    } else {
+      this.greenAnswerIndex = badAnswerIndex;
+      this.redAnswerIndex = goodAnswerIndex;
+    }
+  }
+
   private void updateState(State newState)
   {
     System.out.println("newState: " + newState.toString());
@@ -229,7 +255,7 @@ public class Logic
     switch (newState)
     {
       case ShowQuestion:
-        // this.chooseNextQuestion();
+        this.chooseNextQuestion();
 
         break;
 

@@ -33,7 +33,7 @@ public class Logic
     // being shown to them before resetting
     Result;
 
-    public static final int QUESTION_TIMER = 5;
+    public static final int QUESTION_TIMER = 10;
     public static final int COUNTER_TIMER = 10;
     public static final int RESULT_TIMER = 5;
   };
@@ -147,7 +147,13 @@ public class Logic
     String redAnswer = answers[this.redAnswerIndex];
     String greenAnswer = answers[this.greenAnswerIndex];
 
-    String textToShow = question + "\n\nRed: " + redAnswer + "\nGreen: " + greenAnswer;
+    int secondsLeft = State.QUESTION_TIMER - this.updatesCounter;
+
+    String textToShow =
+      question + "\n\n" +
+      "Red: " + redAnswer + "\n" +
+      "Green: " + greenAnswer + "\n\n" +
+      "Starting in " + secondsLeft + " ...";
 
     String[] lines = textToShow.split("\n");
 

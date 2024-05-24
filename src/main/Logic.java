@@ -20,10 +20,7 @@ public class Logic
     // question they are to answer, as well as the colors associated with the
     // answers to said question
     ShowQuestion,
-    // This is the phase in which we reset the level data as it will be
-    // modified later on as part of the gameplay -- we will be introducing
-    // obstacles for them to navigate before the countdown timer expires
-    Reset,
+
     // The countdown phase in which the player is allotted a certain span
     // of time to position theirself in the correct side of the level so as to
     // answer the question presented to them properly
@@ -32,7 +29,7 @@ public class Logic
     // the answer areas.  This is where they will receive points for being right,
     // or have lives deducted for being wrong.  This phase will persist for an
     // amount of time so that the player has a chance to process the information
-    // being shown to them before resetting, see State.Reset
+    // being shown to them before resetting
     Result;
 
     public static final int QUESTION_TIMER = 5;
@@ -54,12 +51,14 @@ public class Logic
 
   private int nextQuestionIndex = 0;
 
-  private void reset()
+  // This is the method in which introduce obstacles for the player
+  // to navigate before the countdown timer expires
+  private void setup()
   {
-    // place random, non-obstructing/overlapping blocks
+    // Place random, non-obstructing/overlapping blocks
     LevelManager levelManager = this.game.getLevelManager();
 
-    // by reference -- we are modifying the actual level data here
+    // By reference -- we are modifying the actual level data here
     Tile[][] levelData = levelManager.getCurrentLevel().getLevelData();
 
     int height = levelData.length;
@@ -76,7 +75,7 @@ public class Logic
       int playerX = (int)(this.game.getPlayer().getHitbox().getX() / Game.TILES_SIZE);
       int playerY = (int)(this.game.getPlayer().getHitbox().getY() / Game.TILES_SIZE);
 
-      // find a suitable place to place our obstacles
+      // Find a suitable place to place our obstacles
       // TODO make sure these blocks don't overlap themselves
       outer: do {
         yIndex = (int)(Math.random() * ySpace) + 2;
@@ -161,18 +160,6 @@ public class Logic
       this.upsCounter = 0;
       this.tick();
     }
-
-    switch (this.state)
-    {
-      case Reset:
-        this.reset();
-        this.updateState(State.Countdown);
-
-        break;
-
-      default:
-        // do nothing
-    }
   }
 
   public void draw(Graphics g)
@@ -208,7 +195,10 @@ public class Logic
     {
       case ShowQuestion:
         if (this.updatesCounter >= State.QUESTION_TIMER)
-          this.updateState(State.Reset);
+        {
+          this.setup();
+          this.updateState(State.Countdown);
+        };
 
         break;
 
@@ -244,7 +234,7 @@ public class Logic
         break;
 
       case Result:
-        // Reset the level so we can add new obstacles & answer fields
+        // Setup the level so we can add new obstacles & answer fields
         LevelManager levelManager = this.game.getLevelManager();
         levelManager.resetLevel();
 

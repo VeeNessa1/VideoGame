@@ -130,6 +130,11 @@ public class Game implements Runnable
 		return this.player;
 	}
 
+	public LevelManager getLevelManager()
+	{
+		return this.levelManager;
+	}
+
 	public int getUps()
 	{
 		return this.UPS_SET;

@@ -2,6 +2,9 @@ package main;
 
 import java.awt.Graphics;
 
+import levels.LevelData.Tile;
+import levels.LevelManager;
+
 public class Logic
 {
   private Game game;
@@ -39,9 +42,85 @@ public class Logic
     this.game = game;
   }
 
-  public void reset()
+  private static final Tile BLOCK_TILES[][] = {
+    { Tile.GrassyNorthWest, Tile.GrassyNorthEast },
+    { Tile.GrassySouthWest, Tile.GrassySouthEast },
+  };
+
+  private void reset()
   {
     System.out.println("Reset");
+
+    LevelManager levelManager = this.game.getLevelManager();
+    levelManager.resetLevel();
+
+    Tile[][] levelData = levelManager.getCurrentLevel().getLevelData();
+
+    int height = levelData.length;
+    int width = levelData[0].length;
+
+    int ySpace = height - 4;
+    int xSpace = width - 4;
+
+    for (int i = 0; i < 5; i++)
+    {
+      int xIndex = 0;
+      int yIndex = 0;
+
+      int playerX = (int)(this.game.getPlayer().getHitbox().getX() / Game.TILES_SIZE);
+      int playerY = (int)(this.game.getPlayer().getHitbox().getY() / Game.TILES_SIZE);
+
+      // find a suitable place to place our obstacles
+      outer: do {
+        yIndex = (int)(Math.random() * ySpace) + 2;
+        xIndex = (int)(Math.random() * xSpace) + 2;
+
+        for (int xOffset = -1; xOffset < 3; xOffset++)
+        {
+          for (int yOffset = -1; yOffset < 3; yOffset++)
+          {
+            if (levelData[yIndex + yOffset][xIndex + xOffset].isSolid())
+              continue outer;
+
+            if (yIndex + yOffset == playerY)
+              continue outer;
+
+            if (xIndex + xOffset == playerX)
+              continue outer;
+          }
+        }
+
+        break;
+      } while (true);
+
+      for (int xOffset = 0; xOffset < 2; xOffset++)
+        for (int yOffset = 0; yOffset < 2; yOffset++)
+          levelData[yIndex + yOffset][xIndex + xOffset] = BLOCK_TILES[yOffset][xOffset];
+    };
+
+    int greenZoneWidth = (int)(Math.random() * 4) + 4;
+    int redZoneWidth = (int)(Math.random() * 4) + 4;
+
+    int redZoneColumn = (int)(Math.random() * (width - redZoneWidth));
+
+    int greenZoneColumn = 0;
+    do {
+      greenZoneColumn = (int)(Math.random() * (width - greenZoneWidth));
+    } while (
+      (greenZoneColumn > redZoneColumn && greenZoneColumn + greenZoneWidth < redZoneColumn + redZoneWidth) ||
+      (greenZoneColumn < redZoneColumn && greenZoneColumn + greenZoneWidth > redZoneColumn + redZoneWidth)
+    );
+
+    for (int yIndex = 0; yIndex < height; yIndex++)
+    {
+      for (int xOffset = 0; xOffset < greenZoneWidth; xOffset++)
+        if (!levelData[yIndex][greenZoneColumn + xOffset].isSolid())
+          levelData[yIndex][greenZoneColumn + xOffset] = Tile.GreenBackground;
+
+      for (int xOffset = 0; xOffset < redZoneWidth; xOffset++)
+        if (!levelData[yIndex][redZoneColumn + xOffset].isSolid())
+          levelData[yIndex][redZoneColumn + xOffset] = Tile.RedBackground;
+    }
   }
 
   public void drawStartup(Graphics g)

@@ -11,14 +11,14 @@ public class LevelManager
 	@SuppressWarnings("unused")
 	private Game game;
 	private BufferedImage[] levelSprite;
-	private static Level levelOne;
+	private Level level;
 
 	public LevelManager(Game game)
 	{
 		this.game = game;
 		// levelSprite = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_ONE_DATA);
 		this.importOutsideSprites();
-		levelOne = new Level(LoadSave.GetLevelData());
+		this.level = new Level(LoadSave.GetLevelData());
 	}
 
 	private void importOutsideSprites()
@@ -40,7 +40,7 @@ public class LevelManager
 		{
 			for (int i = 0; i < Game.TILES_IN_WIDTH; i++)
 			{
-				int id = levelOne.getSpriteIndex(i, j).getId();
+				int id = this.level.getSpriteIndex(i, j).getId();
 
 				g.drawImage(
 					this.levelSprite[id],
@@ -56,8 +56,8 @@ public class LevelManager
 
 	public void update() {}
 
-	public static Level getCurrentLevel() {
-		return levelOne;
+	public Level getCurrentLevel() {
+		return this.level;
 	}
 }
 

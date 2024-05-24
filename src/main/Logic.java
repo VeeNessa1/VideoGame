@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
@@ -33,7 +34,7 @@ public class Logic
     // being shown to them before resetting
     Result;
 
-    public static final int QUESTION_TIMER = 10;
+    public static final int QUESTION_TIMER = 1;
     public static final int COUNTER_TIMER = 10;
     public static final int RESULT_TIMER = 5;
   };
@@ -167,7 +168,17 @@ public class Logic
   {
     int secondsLeft = State.COUNTER_TIMER - this.updatesCounter;
 
-		g.drawString("Countdown: " + secondsLeft, 400, 200);
+    String countdownText = secondsLeft + " second";
+
+    // make sure the plural matches the number
+    if (secondsLeft != 1)
+      countdownText += "s";
+
+    countdownText += " left";
+
+    g.setColor(Color.LIGHT_GRAY);
+    g.setFont(new Font("Arial", Font.PLAIN, Game.TILES_SIZE));
+		g.drawString(countdownText, (int)(1 * Game.TILES_SIZE), (int)(13.33 * Game.TILES_SIZE));
   }
 
   public void drawResults(Graphics g)
@@ -278,15 +289,6 @@ public class Logic
     {
       case ShowQuestion:
         this.chooseNextQuestion();
-
-        System.out.println("Question: " + Questions.QUESTIONS[this.nextQuestionIndex]);
-        System.out.println("Red answer: " + Questions.ANSWERS[this.nextQuestionIndex][this.redAnswerIndex]);
-        System.out.println("Green answer: " + Questions.ANSWERS[this.nextQuestionIndex][this.greenAnswerIndex]);
-
-        if (this.redAnswerIndex == Questions.ANSWER_INDICES[this.nextQuestionIndex])
-          System.out.println("Red is correct");
-        else
-          System.out.println("Green is correct");
 
         break;
 

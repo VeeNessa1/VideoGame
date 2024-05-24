@@ -16,6 +16,10 @@ public class Logic
     // Main menu phase, gives player time to ready theirself and maybe
     // we can show them a brief explanation of how to play the game
     Startup,
+    // This is the phase in which we will clear/reset the level and display the
+    // question they are to answer, as well as the colors associated with the
+    // answers to said question
+    ShowQuestion,
     // This is the phase in which we reset the level data as it will be
     // modified later on as part of the gameplay -- we will be introducing
     // obstacles for them to navigate before the countdown timer expires
@@ -31,6 +35,7 @@ public class Logic
     // being shown to them before resetting, see State.Reset
     Result;
 
+    public static final int QUESTION_TIMER = 5;
     public static final int COUNTER_TIMER = 10;
     public static final int RESULT_TIMER = 5;
   };
@@ -47,13 +52,14 @@ public class Logic
     { Tile.GrassySouthWest, Tile.GrassySouthEast },
   };
 
+  private int nextQuestionIndex = 0;
+
   private void reset()
   {
-    System.out.println("Reset");
-
+    // place random, non-obstructing/overlapping blocks
     LevelManager levelManager = this.game.getLevelManager();
-    levelManager.resetLevel();
 
+    // by reference -- we are modifying the actual level data here
     Tile[][] levelData = levelManager.getCurrentLevel().getLevelData();
 
     int height = levelData.length;
@@ -71,6 +77,7 @@ public class Logic
       int playerY = (int)(this.game.getPlayer().getHitbox().getY() / Game.TILES_SIZE);
 
       // find a suitable place to place our obstacles
+      // TODO make sure these blocks don't overlap themselves
       outer: do {
         yIndex = (int)(Math.random() * ySpace) + 2;
         xIndex = (int)(Math.random() * xSpace) + 2;
@@ -128,6 +135,11 @@ public class Logic
 		g.drawString("Press enter to begin ...", 400, 200);
   }
 
+  public void drawQuestion(Graphics g)
+  {
+    g.drawString("<Insert question here>", 400, 200);
+  }
+
   public void drawCountdown(Graphics g)
   {
     int secondsLeft = State.COUNTER_TIMER - this.updatesCounter;
@@ -171,6 +183,10 @@ public class Logic
         this.drawStartup(g);
         break;
 
+      case ShowQuestion:
+        this.drawQuestion(g);
+        break;
+
       case Countdown:
         this.drawCountdown(g);
         break;
@@ -190,6 +206,12 @@ public class Logic
 
     switch (this.state)
     {
+      case ShowQuestion:
+        if (this.updatesCounter >= State.QUESTION_TIMER)
+          this.updateState(State.Reset);
+
+        break;
+
       case Countdown:
         if (this.updatesCounter >= State.COUNTER_TIMER)
           this.updateState(State.Result);
@@ -198,7 +220,7 @@ public class Logic
 
       case Result:
         if (this.updatesCounter >= State.RESULT_TIMER)
-          this.updateState(State.Reset);
+          this.updateState(State.ShowQuestion);
 
         break;
 
@@ -209,12 +231,32 @@ public class Logic
 
   private void updateState(State newState)
   {
+    System.out.println("newState: " + newState.toString());
+
     this.state = newState;
     this.updatesCounter = 0;
+
+    switch (newState)
+    {
+      case ShowQuestion:
+        // this.chooseNextQuestion();
+
+        break;
+
+      case Result:
+        // Reset the level so we can add new obstacles & answer fields
+        LevelManager levelManager = this.game.getLevelManager();
+        levelManager.resetLevel();
+
+        break;
+
+      default:
+        // do nothing
+    }
   }
 
   public void begin() {
     if (this.state == State.Startup)
-      this.updateState(State.Reset);
+      this.updateState(State.ShowQuestion);
   }
 }

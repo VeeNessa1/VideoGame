@@ -18,6 +18,11 @@ public class LevelManager
 		this.game = game;
 		// levelSprite = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_ONE_DATA);
 		this.importOutsideSprites();
+		this.resetLevel();
+	}
+
+	public void resetLevel()
+	{
 		this.level = new Level(LoadSave.GetLevelData());
 	}
 
@@ -56,7 +61,8 @@ public class LevelManager
 
 	public void update() {}
 
-	public Level getCurrentLevel() {
+	public Level getCurrentLevel()
+	{
 		return this.level;
 	}
 }

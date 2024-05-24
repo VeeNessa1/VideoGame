@@ -47,7 +47,7 @@ public class KeyboardInputs implements KeyListener
 				break;
 
 			case KeyEvent.VK_ENTER:
-				gamePanel.getGame().begin();	
+				gamePanel.getGame().begin();
 				break;
 		}
 	}

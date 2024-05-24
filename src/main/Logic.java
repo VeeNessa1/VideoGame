@@ -53,11 +53,11 @@ public class Logic
   {
 		g.drawString("Press any key to begin ...", 400, 200);
   }
-  
+
   public void drawCountdown(Graphics g)
   {
     int secondsLeft = State.COUNTER_TIMER - this.updatesCounter;
-    
+
 		g.drawString("Countdown: " + secondsLeft, 400, 200);
   }
 
@@ -65,7 +65,7 @@ public class Logic
   {
 		g.drawString("Results", 400, 200);
   }
-  
+
   public void update()
   {
     this.upsCounter++;
@@ -82,13 +82,13 @@ public class Logic
         this.startup();
 
         break;
-      
+
       case Reset:
         this.reset();
         this.updateState(State.Countdown);
 
         break;
-      
+
       default:
         // do nothing
     }
@@ -101,7 +101,7 @@ public class Logic
       case Startup:
         this.drawStartup(g);
         break;
-      
+
       case Countdown:
         this.drawCountdown(g);
         break;
@@ -126,7 +126,7 @@ public class Logic
           this.updateState(State.Result);
 
         break;
-      
+
       case Result:
         if (this.updatesCounter >= State.RESULT_TIMER)
           this.updateState(State.Reset);

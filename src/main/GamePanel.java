@@ -48,7 +48,7 @@ public class GamePanel extends JPanel
 		// Graphics allows us to draw
 
 		g.setFont(new Font("Arial", Font.PLAIN, 48));
-		
+
 		// this line is calling the super class which is JPanel,it calls the JPanels own paint component method
 		super.paintComponent(g);
 		game.render(g);

@@ -13,34 +13,34 @@ public class Questions
 
   public static final String[][] ANSWERS = {
     {
-      "a) Frodo Baggins",
-      "b) Harry Potter",
-      "c) Tony Stark ",
+      "Frodo Baggins",
+      "Harry Potter",
+      "Tony Stark",
     },
     {
-      "a) 6",
-      "b) 10",
-      "c) 11",
+      "6",
+      "10",
+      "11",
     },
     {
-      "a) Robert Downey Jr.",
-      "b) Chris Hemsworth",
-      "c) Chris Evans",
+      "Robert Downey Jr.",
+      "Chris Hemsworth",
+      "Chris Evans",
     },
     {
-      "a) Emma Roberts",
-      "b) Emma Stone",
-      "c) Emma Watson",
+      "Emma Roberts",
+      "Emma Stone",
+      "Emma Watson",
     },
     {
-      "a) Star Wars: Episode IV - A New Hope",
-      "b) Star Wars: Episode V - The Empire Strikes Back",
-      "c) Star Wars: Episode VI - Return of the Jedi",
+      "Star Wars: Episode IV - A New Hope",
+      "Star Wars: Episode V - The Empire Strikes Back",
+      "Star Wars: Episode VI - Return of the Jedi",
     },
     {
-      "a) Scar",
-      "b) Simba",
-      "c) Rafiki",
+      "Scar",
+      "Simba",
+      "Rafiki",
     },
   };
 

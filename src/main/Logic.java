@@ -39,11 +39,6 @@ public class Logic
     this.game = game;
   }
 
-  public void startup()
-  {
-    System.out.println("Startup");
-  }
-
   public void reset()
   {
     System.out.println("Reset");
@@ -78,11 +73,6 @@ public class Logic
 
     switch (this.state)
     {
-      case Startup:
-        this.startup();
-
-        break;
-
       case Reset:
         this.reset();
         this.updateState(State.Countdown);

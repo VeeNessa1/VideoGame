@@ -31,7 +31,7 @@ public class Player extends Entity
 	private float gravity = 0.04f * Game.SCALE;
 	// Gravity will dictate how fast our player will fall and jump and the lower
 	// the number we set to gravity the higher the player will jump
-	private float jumpSpeed = -2.25f * Game.SCALE;
+	private float jumpSpeed = -3.10f * Game.SCALE;
 	private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
 	private boolean inAir = false;
 

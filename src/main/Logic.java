@@ -32,7 +32,11 @@ public class Logic
     // or have lives deducted for being wrong.  This phase will persist for an
     // amount of time so that the player has a chance to process the information
     // being shown to them before resetting
-    Result;
+    Result,
+		// This is the end screen in case the player wins
+		Win,
+		// This is the end screen in case the player loses
+		Loss;
 
     public static final int QUESTION_TIMER = 1;
     public static final int COUNTER_TIMER = 10;
@@ -47,6 +51,9 @@ public class Logic
   private int nextQuestionIndex = 0;
   private int redAnswerIndex = 0;
   private int greenAnswerIndex = 0;
+
+	private int lives = 3;
+	private int points = 0;
 
   private State state = State.Startup;
 
@@ -121,16 +128,36 @@ public class Logic
       (greenZoneColumn < redZoneColumn && greenZoneColumn + greenZoneWidth > redZoneColumn + redZoneWidth)
     );
 
+		boolean existsGreenZone = false;
+		boolean existsRedZone = false;
+
     for (int yIndex = 0; yIndex < height; yIndex++)
     {
       for (int xOffset = 0; xOffset < greenZoneWidth; xOffset++)
+			{
         if (!levelData[yIndex][greenZoneColumn + xOffset].isSolid())
+				{
           levelData[yIndex][greenZoneColumn + xOffset] = Tile.GreenBackground;
+					existsGreenZone = true;
+				}
+			}
 
       for (int xOffset = 0; xOffset < redZoneWidth; xOffset++)
+			{
         if (!levelData[yIndex][redZoneColumn + xOffset].isSolid())
-          levelData[yIndex][redZoneColumn + xOffset] = Tile.RedBackground;
+				{
+					levelData[yIndex][redZoneColumn + xOffset] = Tile.RedBackground;
+					existsRedZone = true;
+				}
+			}
     }
+
+		if (!existsGreenZone || !existsRedZone)
+		{
+			// If somehow no red or green zone actually got drawn, try again
+			levelManager.resetLevel();
+			this.setup();
+		}
   }
 
   public void drawStartup(Graphics g)
@@ -245,7 +272,26 @@ public class Logic
 
       case Result:
         if (this.updatesCounter >= State.RESULT_TIMER)
+				{
+					// Check if player lost (out of lives)
+					if (this.lives == 0)
+					{
+						this.updateState(State.Loss);
+
+						return;
+					}
+
+					// Check if player won (answered all questions)
+					if (this.points == Questions.QUESTIONS.length)
+					{
+						this.updateState(State.Win);
+
+						return;
+					}
+
+					// Otherwise, go on to the next round
           this.updateState(State.ShowQuestion);
+				};
 
         break;
 
@@ -278,6 +324,38 @@ public class Logic
     }
   }
 
+  private void finalizeResults()
+  {
+    // Setup the level so we can add new obstacles & answer fields
+    LevelManager levelManager = this.game.getLevelManager();
+
+		int playerYIndex = (int)(this.game.getPlayer().getHitbox().y / Game.TILES_SIZE);
+		int playerXIndex = (int)(this.game.getPlayer().getHitbox().x / Game.TILES_SIZE);
+
+		Tile[][] levelData = levelManager.getCurrentLevel().getLevelData();
+		Tile tilePlayerIsStandingOn = levelData[playerYIndex][playerXIndex];
+
+		// Check if player is standing on the correct tile
+		boolean greenIsCorrect = this.greenAnswerIndex == Questions.ANSWER_INDICES[this.nextQuestionIndex];
+
+		if (
+			(greenIsCorrect && tilePlayerIsStandingOn == Tile.GreenBackground) ||
+			(!greenIsCorrect && tilePlayerIsStandingOn == Tile.RedBackground)
+		) {
+			System.out.println("Correct!");
+			this.points++;
+		} else {
+			System.out.println("Wrong!");
+			this.lives--;
+		}
+
+		System.out.println("points: " + this.points);
+		System.out.println("lives: " + this.lives);
+
+		// Reset level for next round
+    levelManager.resetLevel();
+  }
+
   private void updateState(State newState)
   {
     System.out.println("newState: " + newState.toString());
@@ -293,9 +371,7 @@ public class Logic
         break;
 
       case Result:
-        // Setup the level so we can add new obstacles & answer fields
-        LevelManager levelManager = this.game.getLevelManager();
-        levelManager.resetLevel();
+        this.finalizeResults();
 
         break;
 
@@ -305,7 +381,15 @@ public class Logic
   }
 
   public void begin() {
-    if (this.state == State.Startup)
-      this.updateState(State.ShowQuestion);
+		switch (this.state)
+		{
+			case Startup:
+			case Win:
+			case Loss:
+	      this.updateState(State.ShowQuestion);
+
+			default:
+				// do nothing
+		};
   }
 }

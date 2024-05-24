@@ -38,12 +38,8 @@ public class LoadSave
 		Tile[][] lvlData = new Tile[Game.TILES_IN_HEIGHT][Game.TILES_IN_WIDTH];
 
 		for (int i = 0; i < Game.TILES_IN_HEIGHT; i++)
-		{
 			for (int j = 0; j < Game.TILES_IN_WIDTH; j++)
-			{
 				lvlData[i][j] = LEVEL_ONE_DATA[i][j];
-			}
-		}
 
 		return lvlData;
 	}

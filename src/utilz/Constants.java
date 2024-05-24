@@ -23,7 +23,7 @@ public class Constants
 
 		public static int GetSpriteAmount(int player_action)
 		{
-			switch(player_action)
+			switch (player_action)
 			{
 				case RUNNING:
 				case ATTACK_1:

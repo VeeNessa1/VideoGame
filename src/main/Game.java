@@ -13,7 +13,7 @@ public class Game implements Runnable
 	private Thread gameThread;
 
 	private final int FPS_SET = 120; //This is a global variable
-	private final int UPS_SET = 200;
+	private final int UPS_SET = 120;
 
 	private Player player;
 	private LevelManager levelManager;
@@ -42,7 +42,7 @@ public class Game implements Runnable
 	private void initClasses()
 	{
 		levelManager = new LevelManager(this);
-		player = new Player(200, 200, FPS_SET, FPS_SET);
+		player = new Player(200, 300, 120, 120);
 		player.loadLvlDataint(LevelManager.getCurrentLevel().getLevelData());
 		logic = new Logic(this);
 	}
@@ -110,7 +110,7 @@ public class Game implements Runnable
 			{
 				lastCheck = System.currentTimeMillis();
 
-				System.out.println("FPS: " + frames + "| UPS: " + updates);
+				System.out.println("FPS: " + frames + " | UPS: " + updates);
 
 				frames = 0;
 				updates = 0;

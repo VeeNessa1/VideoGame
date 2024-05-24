@@ -52,4 +52,21 @@ public class Questions
     0,
     0,
   };
+
+  public static final String[] WIN_MESSAGES = {
+    "Winner!",
+    "Congratulations! You've won!",
+    "Victory is yours!",
+    "Fantastic! You did it!",
+    "You've conquered the game!",
+  };
+
+  public static final String[] LOSS_MESSAGES = {
+    "Aww, try again!",
+    "Better luck next time!",
+    "Don't give up! Try again!",
+    "You were so close!",
+    "Oops! Give it another shot!",
+    "Don't worry, you'll get it next time!",
+  };
 }

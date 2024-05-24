@@ -14,7 +14,18 @@ public class Logic
   private int upsCounter = 0;
   private int updatesCounter = 0;
 
-  private enum State {
+  private int nextQuestionIndex = 0;
+  private int redAnswerIndex = 0;
+  private int greenAnswerIndex = 0;
+
+	private int lives = 0;
+	private int points = 0;
+
+  private State state = State.Startup;
+	private boolean wasCorrect = false;
+	private String endMessage = null;
+
+	private enum State {
     // Main menu phase, gives player time to ready theirself and maybe
     // we can show them a brief explanation of how to play the game
     Startup,
@@ -22,7 +33,6 @@ public class Logic
     // question they are to answer, as well as the colors associated with the
     // answers to said question
     ShowQuestion,
-
     // The countdown phase in which the player is allotted a certain span
     // of time to position theirself in the correct side of the level so as to
     // answer the question presented to them properly
@@ -34,12 +44,10 @@ public class Logic
     // being shown to them before resetting
     Result,
 		// This is the end screen in case the player wins
-		Win,
-		// This is the end screen in case the player loses
-		Loss;
+		Endscreen;
 
-    public static final int QUESTION_TIMER = 1;
-    public static final int COUNTER_TIMER = 10;
+    public static final int QUESTION_TIMER = 10;
+    public static final int COUNTER_TIMER = 3;
     public static final int RESULT_TIMER = 5;
   };
 
@@ -48,19 +56,20 @@ public class Logic
     { Tile.GrassySouthWest, Tile.GrassySouthEast },
   };
 
-  private int nextQuestionIndex = 0;
-  private int redAnswerIndex = 0;
-  private int greenAnswerIndex = 0;
-
-	private int lives = 3;
-	private int points = 0;
-
-  private State state = State.Startup;
-
   public Logic(Game game)
   {
     this.game = game;
   }
+
+	private boolean hasWon()
+	{
+		return this.points == Questions.QUESTIONS.length;
+	}
+
+	private boolean hasLost()
+	{
+		return this.lives == 0;
+	}
 
   // This is the method in which introduce obstacles for the player
   // to navigate before the countdown timer expires
@@ -210,8 +219,20 @@ public class Logic
 
   public void drawResults(Graphics g)
   {
-		g.drawString("Results", 400, 200);
+		if (this.wasCorrect)
+			g.drawString("Good job!", 400, 200);
+		else
+			g.drawString("Oops! Try again!", 350, 200);
   }
+
+	public void drawEndscreen(Graphics g)
+	{
+		double textWidth = g.getFontMetrics().getStringBounds(this.endMessage, g).getWidth();
+		int start = (int)((Game.GAME_WIDTH - textWidth) / 2);
+
+		g.drawString(this.endMessage, start, 200);
+		g.drawString("Press enter to play again", 250, 300);
+	}
 
   public void update()
   {
@@ -226,6 +247,16 @@ public class Logic
 
   public void draw(Graphics g)
   {
+		String livesText = null;
+		String pointsText = (this.points * 100) + " points";
+
+		if (this.lives == 1)
+		{
+			livesText = "1 life";
+		} else {
+			livesText = this.lives + " lives";
+		}
+
     switch (this.state)
     {
       case Startup:
@@ -244,9 +275,21 @@ public class Logic
         this.drawResults(g);
         break;
 
+			case Endscreen:
+				this.drawEndscreen(g);
+				break;
+
       default:
         // do nothing
     }
+
+		int lastRow = (int)(13.33 * Game.TILES_SIZE);
+
+		g.setFont(new Font("Arial", Font.PLAIN, 32));
+		g.setColor(Color.GREEN);
+		g.drawString(livesText, 400, lastRow);
+		g.setColor(Color.GREEN);
+		g.drawString(pointsText, 550, lastRow);
   }
 
   public void tick()
@@ -273,18 +316,10 @@ public class Logic
       case Result:
         if (this.updatesCounter >= State.RESULT_TIMER)
 				{
-					// Check if player lost (out of lives)
-					if (this.lives == 0)
+					// Check if player won or lost
+					if (this.hasWon() || this.hasLost())
 					{
-						this.updateState(State.Loss);
-
-						return;
-					}
-
-					// Check if player won (answered all questions)
-					if (this.points == Questions.QUESTIONS.length)
-					{
-						this.updateState(State.Win);
+						this.updateState(State.Endscreen);
 
 						return;
 					}
@@ -342,15 +377,36 @@ public class Logic
 			(greenIsCorrect && tilePlayerIsStandingOn == Tile.GreenBackground) ||
 			(!greenIsCorrect && tilePlayerIsStandingOn == Tile.RedBackground)
 		) {
+			this.wasCorrect = true;
+
 			System.out.println("Correct!");
 			this.points++;
 		} else {
+			this.wasCorrect = false;
+
 			System.out.println("Wrong!");
 			this.lives--;
 		}
 
 		System.out.println("points: " + this.points);
 		System.out.println("lives: " + this.lives);
+
+		String[] endMessages = null;
+		if (this.hasWon())
+		{
+			endMessages = Questions.WIN_MESSAGES;
+		}
+
+		if (this.hasLost())
+		{
+			endMessages = Questions.LOSS_MESSAGES;
+		}
+
+		if (endMessages != null)
+		{
+			int messagesCount = endMessages.length;
+			this.endMessage = endMessages[(int)(Math.random() * messagesCount)];
+		}
 
 		// Reset level for next round
     levelManager.resetLevel();
@@ -384,8 +440,9 @@ public class Logic
 		switch (this.state)
 		{
 			case Startup:
-			case Win:
-			case Loss:
+			case Endscreen:
+				this.lives = 3;
+				this.points = 0;
 	      this.updateState(State.ShowQuestion);
 
 			default:

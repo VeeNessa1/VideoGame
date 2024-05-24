@@ -31,40 +31,40 @@ public class Game implements Runnable
 
 	public Game()
 	{
-		initClasses();
+		this.initClasses();
 
-		gamePanel = new GamePanel(this);
-		gameWindow = new GameWindow(gamePanel);
+		this.gamePanel = new GamePanel(this);
+		this.gameWindow = new GameWindow(gamePanel);
 		// requests that this component gets focus
-		gamePanel.requestFocus();
+		this.gamePanel.requestFocus();
 	}
 
 	private void initClasses()
 	{
-		levelManager = new LevelManager(this);
-		player = new Player(200, 300, 120, 120);
-		player.loadLvlDataint(LevelManager.getCurrentLevel().getLevelData());
-		logic = new Logic(this);
+		this.levelManager = new LevelManager(this);
+		this.player = new Player(200, 300, 120, 120);
+		this.player.loadLvlDataint(LevelManager.getCurrentLevel().getLevelData());
+		this.logic = new Logic(this);
 	}
 
 	public void startGameLoop()
 	{
-		gameThread = new Thread(this);
-		gameThread.start();
+		this.gameThread = new Thread(this);
+		this.gameThread.start();
 	}
 
 	public void update()
 	{
-		player.update();
-		levelManager.update();
-		logic.update();
+		this.player.update();
+		this.levelManager.update();
+		this.logic.update();
 	}
 
 	public void render(Graphics g)
 	{
-		levelManager.draw(g);
-		player.render(g);
-		logic.draw(g);
+		this.levelManager.draw(g);
+		this.player.render(g);
+		this.logic.draw(g);
 	}
 
 	@Override
@@ -94,14 +94,14 @@ public class Game implements Runnable
 
 			if (deltaU >= 1)
 			{
-				update();
+				this.update();
 				updates++;
 				deltaU--;
 			}
 
 			if (deltaF >= 1)
 			{
-				gamePanel.repaint();
+				this.gamePanel.repaint();
 				frames++;
 				deltaF--;
 			}
@@ -121,13 +121,13 @@ public class Game implements Runnable
 
 	public void windowFocusLost()
 	{
-		player.resetDirBooleans();
+		this.player.resetDirBooleans();
 	}
 
 	public Player getPlayer()
 	{
 		// Creating a Getter
-		return player;
+		return this.player;
 	}
 
 	public int getUps()

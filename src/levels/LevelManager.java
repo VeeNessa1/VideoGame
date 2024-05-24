@@ -17,7 +17,7 @@ public class LevelManager
 	{
 		this.game = game;
 		// levelSprite = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_ONE_DATA);
-		importOutsideSprites();
+		this.importOutsideSprites();
 		levelOne = new Level(LoadSave.GetLevelData());
 	}
 
@@ -30,7 +30,7 @@ public class LevelManager
 		{
 			int x = 16 + 64 * i, y = 16, w = 32, h = 32;
 
-			levelSprite[i] = img.getSubimage(x, y, w, h);
+			this.levelSprite[i] = img.getSubimage(x, y, w, h);
 		}
 	}
 
@@ -43,7 +43,7 @@ public class LevelManager
 				int id = levelOne.getSpriteIndex(i, j).getId();
 
 				g.drawImage(
-					levelSprite[id],
+					this.levelSprite[id],
 					Game.TILES_SIZE * i,
 					Game.TILES_SIZE * j,
 					Game.TILES_SIZE,

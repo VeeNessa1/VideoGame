@@ -23,20 +23,20 @@ public class GamePanel extends JPanel
 
 	public GamePanel(Game game)
 	{
-		mouseInputs = new MouseInputs(this);
+		this.mouseInputs = new MouseInputs(this);
 		this.game = game;
 		// TODO Instantiate player
 
-		setPanelSize();
-		addKeyListener(new KeyboardInputs(this));
-		addMouseListener(mouseInputs);
-		addMouseMotionListener(mouseInputs);
+		this.setPanelSize();
+		this.addKeyListener(new KeyboardInputs(this));
+		this.addMouseListener(this.mouseInputs);
+		this.addMouseMotionListener(this.mouseInputs);
 	}
 
 	private void setPanelSize()
 	{
 		Dimension size = new Dimension(GAME_WIDTH, GAME_HEIGHT);
-		setPreferredSize(size);
+		this.setPreferredSize(size);
 		System.out.println("size : " + GAME_WIDTH +" : " + GAME_HEIGHT);
 	}
 
@@ -51,12 +51,12 @@ public class GamePanel extends JPanel
 
 		// this line is calling the super class which is JPanel,it calls the JPanels own paint component method
 		super.paintComponent(g);
-		game.render(g);
+		this.game.render(g);
 	}
 
 	public Game getGame()
 	{
 		// Another getter for games
-		return game;
+		return this.game;
 	}
 }

@@ -43,16 +43,16 @@ public class Player extends Entity
 		// ^ awesome!
 		// this is how objected oriented programming works
 
-		loadAnimations();
-		initHitBox(x, y, 20 * Game.SCALE, 27 * Game.SCALE);
+		this.loadAnimations();
+		this.initHitBox(x, y, 20 * Game.SCALE, 27 * Game.SCALE);
 	}
 
 	public void update()
 	{
-		updatePos();
+		this.updatePos();
 
-		updateAnimationTick();
-		setAnimation();
+		this.updateAnimationTick();
+		this.setAnimation();
 	}
 
 	public void render(Graphics g)
@@ -60,10 +60,10 @@ public class Player extends Entity
 		// this way we can render the player
 
 		g.drawImage(
-			animations[playerAction][aniIndex],
-			(int)(hitbox.x - xDrawOffset),
-			(int)(hitbox.y - yDrawOffset),
-			width, height,
+			this.animations[this.playerAction][this.aniIndex],
+			(int)(this.hitbox.x - this.xDrawOffset),
+			(int)(this.hitbox.y - this.yDrawOffset),
+			this.width, this.height,
 			null
 		);
 
@@ -72,120 +72,132 @@ public class Player extends Entity
 
 	private void updateAnimationTick()
 	{
-		aniTick++;
+		this.aniTick++;
 
-		if (aniTick >= aniSpeed)
+		if (this.aniTick >= this.aniSpeed)
 		{
-			aniTick = 0;
-			aniIndex++;
+			this.aniTick = 0;
+			this.aniIndex++;
 
-			if (aniIndex >= GetSpriteAmount(playerAction))
+			if (this.aniIndex >= GetSpriteAmount(this.playerAction))
 			{
-				aniIndex = 0;
-				attacking = false;
+				this.aniIndex = 0;
+				this.attacking = false;
 			}
 		}
 	}
 
 	private void setAnimation()
 	{
-		int startAni = playerAction;
+		int startAni = this.playerAction;
 
 		// if-else statement
-		if (moving)
+		if (this.moving)
 		{
-			playerAction = RUNNING;
+			this.playerAction = RUNNING;
 		} else {
-			playerAction = IDLE;
+			this.playerAction = IDLE;
 		}
 
-		if (inAir) {
-			if (airSpeed < 0) {
-				playerAction = JUMP;
+		if (this.inAir)
+		{
+			if (this.airSpeed < 0)
+			{
+				this.playerAction = JUMP;
 			} else {
-				playerAction = FALLING;
+				this.playerAction = FALLING;
 			}
 		}
 
-		if (attacking)
-			playerAction = ATTACK_1;
+		if (this.attacking)
+			this.playerAction = ATTACK_1;
 
-		if (startAni != playerAction)
-			resetAniTick();
+		if (startAni != this.playerAction)
+			this.resetAniTick();
 	}
 
 	private void resetAniTick()
 	{
-		aniTick = 0;
-		aniIndex = 0;
+		this.aniTick = 0;
+		this.aniIndex = 0;
 	}
 
 	private void updatePos()
 	{
-		moving = false;
+		this.moving = false;
 
-		if (jump)
-			jump();
+		if (this.jump)
+			this.jump();
 
-		if (!left && !right && !inAir)
+		if (!this.left && !this.right && !this.inAir)
 			return;
 
 		float xSpeed = 0;
 
-		if (left)
-			xSpeed -= playerSpeed;
+		if (this.left)
+			xSpeed -= this.playerSpeed;
 
-		if (right)
-			xSpeed += playerSpeed;
+		if (this.right)
+			xSpeed += this.playerSpeed;
 
-		if (!inAir && !IsEntityOnFloor(hitbox, lvlData))
-			inAir = true;
+		if (!this.inAir && !IsEntityOnFloor(this.hitbox, this.lvlData))
+			this.inAir = true;
 
-		if (inAir)
+		if (this.inAir)
 		{
-			if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData))
-			{
-				hitbox.y += airSpeed;
-				airSpeed += gravity;
+			if (CanMoveHere(
+				this.hitbox.x,
+				this.hitbox.y + this.airSpeed,
+				this.hitbox.width,
+				this.hitbox.height,
+				this.lvlData
+			)) {
+				this.hitbox.y += this.airSpeed;
+				this.airSpeed += this.gravity;
 			} else {
-				hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
+				this.hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(this.hitbox, this.airSpeed);
 
 				if (airSpeed > 0)
 				{
-					resetInAir();
+					this.resetInAir();
 				} else {
-					airSpeed = fallSpeedAfterCollision;
+					this.airSpeed = this.fallSpeedAfterCollision;
 				}
 			}
 		} else {
-			moving = true;
+			this.moving = true;
 		}
 
-		updateXPos(xSpeed);
+		this.updateXPos(xSpeed);
 	}
 
 	private void jump()
 	{
-		if (inAir)
+		if (this.inAir)
 			return;
 
-		inAir = true;
-		airSpeed = jumpSpeed;
+		this.inAir = true;
+		this.airSpeed = this.jumpSpeed;
 	}
 
 	private void resetInAir()
 	{
-		inAir = false;
-		airSpeed = 0;
+		this.inAir = false;
+		this.airSpeed = 0;
 	}
 
 	private void updateXPos(float xSpeed)
 	{
-		if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData))
-		{
-			hitbox.x += xSpeed;
+		if (CanMoveHere(
+			this.hitbox.x + xSpeed,
+			this.hitbox.y,
+			this.hitbox.width,
+			this.hitbox.height,
+			lvlData
+		)) {
+			this.hitbox.x += xSpeed;
 		} else {
-			hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
+			this.hitbox.x = GetEntityXPosNextToWall(this.hitbox, xSpeed);
 		}
 	}
 
@@ -235,7 +247,11 @@ public class Player extends Entity
 
 			for (int i = 0; i < spriteFrames; i++)
 			{
-				this.animations[spriteId][i] = this.images[spriteId].getSubimage(i * ANIM_WIDTH, 0, ANIM_WIDTH, ANIM_HEIGHT);
+				this.animations[spriteId][i] = this.images[spriteId].getSubimage(
+					i * ANIM_WIDTH, 0,
+					ANIM_WIDTH,
+					ANIM_HEIGHT
+				);
 			}
 		}
 	}
@@ -244,26 +260,26 @@ public class Player extends Entity
 	{
 		this.lvlData = lvlData;
 
-		if (!IsEntityOnFloor(hitbox, lvlData))
+		if (!IsEntityOnFloor(this.hitbox, lvlData))
 			inAir = true;
 	}
 
 	public void resetDirBooleans()
 	{
-		left = false;
-		right = false;
-		up = false;
-		down = false;
+		this.left = false;
+		this.right = false;
+		this.up = false;
+		this.down = false;
 	}
 
-	public void setAttacking(boolean attacking )
+	public void setAttacking(boolean attacking)
 	{
 		this.attacking = attacking;
 	}
 
 	public boolean isLeft()
 	{
-		return left;
+		return this.left;
 	}
 
 	public void setLeft(boolean left)
@@ -273,7 +289,7 @@ public class Player extends Entity
 
 	public boolean isUp()
 	{
-		return up;
+		return this.up;
 	}
 
 	public void setUp(boolean up)
@@ -283,7 +299,7 @@ public class Player extends Entity
 
 	public boolean isRight()
 	{
-		return right;
+		return this.right;
 	}
 
 	public void setRight(boolean right)
@@ -293,7 +309,7 @@ public class Player extends Entity
 
 	public boolean isDown()
 	{
-		return down;
+		return this.down;
 	}
 
 	public void setDown(boolean down)
@@ -304,7 +320,7 @@ public class Player extends Entity
 
 	public void setJump(boolean jump)
 	{
-	this.jump = jump;
+		this.jump = jump;
 	}
 }
 

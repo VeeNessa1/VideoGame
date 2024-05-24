@@ -14,21 +14,21 @@ public class GameWindow
 	public GameWindow(GamePanel gamePanel)
 	{
 		// Now make a call to make a window appear
-		jframe = new JFrame();
+		this.jframe = new JFrame();
 
 		// This closes the program whenever we close the window
-		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		jframe.add(gamePanel);
-		jframe.setLocationRelativeTo(null);
-		jframe.setResizable(false);
+		this.jframe.add(gamePanel);
+		this.jframe.setLocationRelativeTo(null);
+		this.jframe.setResizable(false);
 
 		// This method needs to be called *before* setVisible
-		jframe.pack();
+		this.jframe.pack();
 
 		// This line needs to be placed after previous line, order is IMPORTANT
-		jframe.setVisible(true);
-		jframe.addWindowFocusListener(new WindowFocusListener()
+		this.jframe.setVisible(true);
+		this.jframe.addWindowFocusListener(new WindowFocusListener()
 		{
 			@Override
 			public void windowLostFocus(WindowEvent e)

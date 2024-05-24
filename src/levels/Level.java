@@ -13,11 +13,11 @@ public class Level
 
 	public Tile getSpriteIndex(int x, int y)
 	{
-		return lvlData[y][x];
+		return this.lvlData[y][x];
 	}
 
 	public Tile[][] getLevelData()
 	{
-		return lvlData;
+		return this.lvlData;
 	}
 }

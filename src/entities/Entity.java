@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 public abstract class Entity
 {
 	// Abstract class is a class that you cannot create an object of, store values that both the player and enemie will use
-	protected float x,y;
+	protected float x, y;
 	protected int width, height;
 	protected Rectangle2D.Float hitbox;
 
@@ -31,7 +31,7 @@ public abstract class Entity
 
 	protected void initHitBox(float x, float y, float width, float height)
 	{
-		hitbox = new Rectangle2D.Float(x, y, width, height);
+		this.hitbox = new Rectangle2D.Float(x, y, width, height);
 	}
 
 	// protected void updateHitbox()
@@ -42,6 +42,6 @@ public abstract class Entity
 
 	public Rectangle2D.Float getHitbox()
 	{
-		return hitbox;
+		return this.hitbox;
 	}
 }

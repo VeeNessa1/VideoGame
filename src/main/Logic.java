@@ -46,7 +46,7 @@ public class Logic
 
   public void drawStartup(Graphics g)
   {
-		g.drawString("Press any key to begin ...", 400, 200);
+		g.drawString("Press enter to begin ...", 400, 200);
   }
 
   public void drawCountdown(Graphics g)

@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Font;
 import java.awt.Graphics;
 
 import levels.LevelData.Tile;
@@ -138,7 +139,22 @@ public class Logic
 
   public void drawQuestion(Graphics g)
   {
-    g.drawString("<Insert question here>", 400, 200);
+    g.setFont(new Font("Arial", Font.PLAIN, 36));
+
+    String question = Questions.QUESTIONS[this.nextQuestionIndex];
+    String[] answers = Questions.ANSWERS[this.nextQuestionIndex];
+
+    String redAnswer = answers[this.redAnswerIndex];
+    String greenAnswer = answers[this.greenAnswerIndex];
+
+    String textToShow = question + "\n\nRed: " + redAnswer + "\nGreen: " + greenAnswer;
+
+    String[] lines = textToShow.split("\n");
+
+    for (int lineNumber = 0; lineNumber < lines.length; lineNumber++)
+    {
+      g.drawString(lines[lineNumber], 100, 100 + 36 * lineNumber);
+    }
   }
 
   public void drawCountdown(Graphics g)
@@ -232,7 +248,7 @@ public class Logic
 
     do {
       badAnswerIndex = (int)(Math.random() * Questions.ANSWERS[this.nextQuestionIndex].length);
-    } while (badAnswerIndex != goodAnswerIndex);
+    } while (badAnswerIndex == goodAnswerIndex);
 
     // Randomly decide if red or green represent the good or bad answer respectively
     if (Math.random() > 0.5)
@@ -256,6 +272,15 @@ public class Logic
     {
       case ShowQuestion:
         this.chooseNextQuestion();
+
+        System.out.println("Question: " + Questions.QUESTIONS[this.nextQuestionIndex]);
+        System.out.println("Red answer: " + Questions.ANSWERS[this.nextQuestionIndex][this.redAnswerIndex]);
+        System.out.println("Green answer: " + Questions.ANSWERS[this.nextQuestionIndex][this.greenAnswerIndex]);
+
+        if (this.redAnswerIndex == Questions.ANSWER_INDICES[this.nextQuestionIndex])
+          System.out.println("Red is correct");
+        else
+          System.out.println("Green is correct");
 
         break;
 

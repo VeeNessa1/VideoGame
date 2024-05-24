@@ -78,7 +78,7 @@ public class HelpMethods
 	// Check the pixel below bottom left and bottom right
 	public static boolean IsEntityOnFloor(Rectangle2D.Float hitbox, Tile[][] lvlData)
 	{
-		return IsSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData) &&
-		       IsSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData);
+		return IsSolid(hitbox.x, hitbox.y + hitbox.height + 5, lvlData) &&
+		       IsSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 5, lvlData);
 	}
 }

@@ -135,6 +135,7 @@ public class Logic
   }
 
   public void begin() {
-    this.updateState(State.Reset);
+    if (this.state == State.Startup)
+      this.updateState(State.Reset);
   }
 }

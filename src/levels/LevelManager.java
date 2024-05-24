@@ -3,12 +3,12 @@ package levels;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import levels.LevelData.Tile;
 import main.Game;
 import utilz.LoadSave;
 
 public class LevelManager
 {
+	@SuppressWarnings("unused")
 	private Game game;
 	private BufferedImage[] levelSprite;
 	private static Level levelOne;

@@ -2,14 +2,11 @@ package utilz;
 
 import java.awt.geom.Rectangle2D;
 
-import levels.LevelData;
 import levels.LevelData.Tile;
 import main.Game;
 
 public class HelpMethods
 {
-	private static final float LEVEL_ONE_DATA = 0;
-
 	public static boolean CanMoveHere(float x, float y, float width, float height, Tile[][] lvlData) {
 		if(!IsSolid(x,y,lvlData))
 			if(!IsSolid(x+width,y+height, lvlData))

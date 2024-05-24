@@ -7,6 +7,7 @@ import levels.LevelManager;
 
 public class Game implements Runnable
 {
+	@SuppressWarnings("unused")
 	private GameWindow gameWindow;
 	private GamePanel gamePanel;
 	private Thread gameThread;
